@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc4d7f449fe460046a91871e67c1fd67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isStartPoint: 0
-  isEndPoint: 0
+  isMoveable: 0
+  isBuildable: 0
   tileSprites:
   - {fileID: 21300000, guid: 12e66f367b2da4c4ea6515bd891f2b90, type: 3}
   - {fileID: 21300000, guid: b6cf925a8e85986418ced10b9d3dd1d5, type: 3}
@@ -108,7 +108,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cf1638a9ca89a6f41b5aa7e70840e5bb, type: 3}
   - {fileID: 21300000, guid: 5b503b7b96d0297478fb8e5e879a27a0, type: 3}
   - {fileID: 21300000, guid: b7d185d6bee589a49af70ffec989bc5e, type: 3}
-  - {fileID: 21300000, guid: 20007b7a8da8e9d4b884f563904f5c2e, type: 3}
-  - {fileID: 21300000, guid: f3af371c4bd056f49a2916056a885a4b, type: 3}
-  - {fileID: 21300000, guid: f9a3a80280ea88d48a95f043d4d0dab7, type: 3}
-  - {fileID: 21300000, guid: 12e66f367b2da4c4ea6515bd891f2b90, type: 3}
+  - {fileID: 21300000, guid: 001bb36e81f8a48419444178b47dd37a, type: 3}
+  - {fileID: 21300000, guid: 11588340196954c86ac85cdf5d6d17dc, type: 3}
+  - {fileID: 21300000, guid: a23d289e396914a219050826e60a2f5d, type: 3}
+  tileIndex: 0

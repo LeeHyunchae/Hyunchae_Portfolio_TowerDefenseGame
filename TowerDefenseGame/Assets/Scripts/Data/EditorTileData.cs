@@ -6,7 +6,7 @@ public class EditorTileData : MonoBehaviour
 {
     public bool isMoveable = false;
     public bool isBuildable = false;
-    public Sprite[] tileSprites; // 타일의 모든 스프라이트를 저장
+    public Sprite[] tileSprites;
     private SpriteRenderer spriteRenderer;
     public int tileIndex;
 
