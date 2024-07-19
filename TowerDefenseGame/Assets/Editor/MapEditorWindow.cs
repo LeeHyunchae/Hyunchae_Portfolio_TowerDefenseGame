@@ -42,7 +42,13 @@ public class MapEditorWindow : EditorWindow
 
     private bool isSetGoalTile = false;
 
+    private bool isSetBuildableTile = false;
+
     private int goalTileIndex = -1;
+
+    private List<SpawnTile> editorSpawnTiles = new List<SpawnTile>();
+
+    private List<int> buildableTiles = new List<int>();
 
     [MenuItem("Window/Map Editor")]
     public static void ShowWindow()
@@ -80,7 +86,7 @@ public class MapEditorWindow : EditorWindow
                 isSetGoalTile = true;
             }
 
-            if (GUILayout.Button("SetEnd Goal Tile"))
+            if (GUILayout.Button("SettingEnd Goal Tile"))
             {
                 isSetGoalTile = false;
             }
@@ -120,6 +126,8 @@ public class MapEditorWindow : EditorWindow
             spawnTiles.Add(new SpawnTile());
 
             curSpawnTileIndex++;
+
+            editorSpawnTiles.Add(new SpawnTile());
         }
 
         GUILayout.Space(10);
@@ -139,11 +147,27 @@ public class MapEditorWindow : EditorWindow
                 ClearCurSpawnRouteSetting();
 
                 spawnTiles.RemoveAt(spawnTiles.Count - 1);
+                editorSpawnTiles.RemoveAt(editorSpawnTiles.Count - 1);
 
                 curSpawnTileIndex--;
 
             }
 
+        }
+
+        if (GUILayout.Button("Set Buildable Tile"))
+        {
+            isSetBuildableTile = true;
+        }
+
+        if (GUILayout.Button("Setting End Buildable Tile"))
+        {
+            isSetBuildableTile = false;
+        }
+
+        if (GUILayout.Button("Clear Buildable Tiles"))
+        {
+            ClearBuildableTiles();
         }
 
         GUILayout.Space(25);
@@ -218,6 +242,8 @@ public class MapEditorWindow : EditorWindow
         isSetSpawnRoute = false;
         isSetGoalTile = false;
 
+        editorSpawnTiles.Clear();
+        buildableTiles.Clear();
         spawnTiles.Clear();
         tiles = null;
         gridParent = null;
@@ -225,131 +251,46 @@ public class MapEditorWindow : EditorWindow
 
     private void ClearCurSpawnRouteSetting()
     {
-        List<int> routeArr = spawnTiles[curSpawnTileIndex].routeIndexList;
-
-        int count = spawnTiles[curSpawnTileIndex].routeIndexList.Count;
-
-        if(count == 1)
-        {
-            int spawnTileIndex = spawnTiles[curSpawnTileIndex].routeIndexList[0];
-
-            int spawnTileX = spawnTileIndex / gridSize.y;
-            int spawnTileY = spawnTileIndex % gridSize.y;
-
-            EditorTileData spawnTile = tiles[spawnTileX, spawnTileY];
-
-            spawnTile.SetTileSprite((int)ETileShape.EMPTY);
-            spawnTile.isMoveable = false;
-
-        }
-
-        for(int i = 0; i < count - 1; i ++)
-        {
-            int curTileIndex = routeArr[i];
-
-            int curTileX = curTileIndex / gridSize.y;
-            int curTileY = curTileIndex % gridSize.y;
-
-            int nextTileIndex = routeArr[i+1];
-
-            int nextTileX = nextTileIndex / gridSize.y;
-            int nextTileY = nextTileIndex % gridSize.y;
-
-            Vector2 curTilePos = new Vector2(curTileX, curTileY);
-
-            EditorTileData curTile = tiles[curTileX, curTileY];
-            curTile.SetTileSprite((int)ETileShape.EMPTY);
-            curTile.isMoveable = false;
-
-            Vector2 nextTilePos = new Vector2(nextTileX, nextTileY);
-
-            Vector2 directionVector = nextTilePos - curTilePos;
-
-            bool isVertical = directionVector.y != 0;
-            bool isHorizontal = directionVector.x != 0;
-
-            if (isVertical)
-            {
-                int betweenCount = (int)Mathf.Abs(directionVector.y);
-
-                for (int j = 0; j < betweenCount; j++)
-                {
-                    int increase = directionVector.y > 0 ? j + 1 : (j + 1) * -1;
-
-                    Vector2 tilePos = curTilePos;
-                    tilePos.y += increase;
-
-                    EditorTileData tileData = tiles[(int)tilePos.x, (int)tilePos.y];
-                    tileData.SetTileSprite((int)ETileShape.EMPTY);
-                }
-            }
-            else if (isHorizontal)
-            {
-                int betweenCount = (int)Mathf.Abs(directionVector.x);
-
-                for (int j = 0; j < betweenCount; j++)
-                {
-                    int increase = directionVector.x > 0 ? j + 1 : (j + 1) * -1;
-
-                    Vector2 tilePos = curTilePos;
-                    tilePos.x += increase;
-
-                    EditorTileData tileData = tiles[(int)tilePos.x, (int)tilePos.y];
-                    tileData.SetTileSprite((int)ETileShape.EMPTY);
-                }
-            }
-        }
-
-        int goalTileIndex = this.goalTileIndex;
-
-        int goalTileX = goalTileIndex / gridSize.y;
-        int goalTileY = goalTileIndex % gridSize.y;
-
-        int lastRouteTileIndex = routeArr[routeArr.Count - 1];
-
-        int lastRouteTileX = lastRouteTileIndex / gridSize.y;
-        int lastRouteTileY = lastRouteTileIndex % gridSize.y;
-
-        Vector2 goalTilePos = new Vector2(goalTileX, goalTileY);
-        Vector2 lastRouteTilePos = new Vector2(lastRouteTileX, lastRouteTileY);
-
-        Vector2 direction = lastRouteTilePos - goalTilePos;
-
-        bool isVerticalDir = direction.y != 0;
-        bool isHorizontalDir = direction.x != 0;
-
-        if (isVerticalDir)
-        {
-            int betweenCount = (int)Mathf.Abs(direction.y);
-
-            for (int i = 0; i < betweenCount; i++)
-            {
-                int increase = direction.y > 0 ? i + 1 : (i + 1) * -1;
-
-                Vector2 tilePos = goalTilePos;
-                tilePos.y += increase;
-
-                EditorTileData tileData = tiles[(int)tilePos.x, (int)tilePos.y];
-                tileData.SetTileSprite((int)ETileShape.EMPTY);
-            }
-        }
-        else if (isHorizontalDir)
-        {
-            int betweenCount = (int)Mathf.Abs(direction.x);
-
-            for (int i = 0; i < betweenCount; i++)
-            {
-                int increase = direction.x > 0 ? i + 1 : (i + 1) * -1;
-
-                Vector2 tilePos = goalTilePos;
-                tilePos.x += increase;
-
-                EditorTileData tileData = tiles[(int)tilePos.x, (int)tilePos.y];
-                tileData.SetTileSprite((int)ETileShape.EMPTY);
-            }
-        }
-
         spawnTiles[curSpawnTileIndex].routeIndexList.Clear();
+
+        List<int> routeList = editorSpawnTiles[curSpawnTileIndex].routeIndexList;
+
+        int count = routeList.Count;
+
+        for(int i = 0; i < count; i ++)
+        {
+            int routeTileIndex = routeList[i];
+
+            int routeTileX = routeTileIndex / gridSize.y;
+            int routeTileY = routeTileIndex % gridSize.y;
+
+            EditorTileData routeTile = tiles[routeTileX, routeTileY];
+
+            routeTile.SetTileSprite((int)ETileShape.EMPTY);
+            routeTile.isMoveable = false;
+        }
+
+        routeList.Clear();
+    }
+
+    private void ClearBuildableTiles()
+    {
+        int count = buildableTiles.Count;
+
+        for (int i = 0; i < count; i++)
+        {
+            int routeTileIndex = buildableTiles[i];
+
+            int routeTileX = routeTileIndex / gridSize.y;
+            int routeTileY = routeTileIndex % gridSize.y;
+
+            EditorTileData routeTile = tiles[routeTileX, routeTileY];
+
+            routeTile.SetTileSprite((int)ETileShape.EMPTY);
+            routeTile.isBuildable = false;
+        }
+
+        buildableTiles.Clear();
     }
 
 
@@ -399,6 +340,7 @@ public class MapEditorWindow : EditorWindow
                     }
 
                     spawnTiles[curSpawnTileIndex].routeIndexList.Add(tile.tileIndex);
+                    editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tile.tileIndex);
                     UpdateRouteTile();
                     //tile.SetTileColor(Color.red);
                 }
@@ -418,7 +360,18 @@ public class MapEditorWindow : EditorWindow
                     tile.SetTileSprite((int)ETileShape.GOAL);
                 }
 
-                //UpdateTileSprites();
+                if(isSetBuildableTile)
+                {
+                    if(tile.isMoveable)
+                    {
+                        Debug.Log("This Tile is Move Route Tile");
+                        return;
+                    }
+
+                    buildableTiles.Add(tile.tileIndex);
+                    tile.isBuildable = true;
+                    tile.SetTileSprite((int)ETileShape.BUILDABLE);
+                }
 
                 break;
             }
@@ -439,6 +392,7 @@ public class MapEditorWindow : EditorWindow
             spawnTile.SetTileSprite((int)ETileShape.SPAWN);
 
             spawnTile.isMoveable = true;
+
         }
         else if(spawnTiles[curSpawnTileIndex].routeIndexList.Count > 1)
         {
@@ -458,7 +412,6 @@ public class MapEditorWindow : EditorWindow
             Vector2 curTilePos = new Vector2(curTileX, curTileY);
 
             EditorTileData curTile = tiles[curTileX, curTileY];
-            curTile.isMoveable = true;
 
             Vector2 directionVector = curTilePos - prevTilePos;
 
@@ -467,7 +420,9 @@ public class MapEditorWindow : EditorWindow
 
             if (isVertical)
             {
-                int count = (int)Mathf.Abs(directionVector.y);
+                int count = (int)Mathf.Abs(directionVector.y) - 1;
+
+                curTile.SetTileSprite((int)ETileShape.VERTICAL);
 
                 for (int i = 0; i < count; i++)
                 {
@@ -478,11 +433,15 @@ public class MapEditorWindow : EditorWindow
 
                     EditorTileData tileData = tiles[(int)tilePos.x, (int)tilePos.y];
                     tileData.SetTileSprite((int)ETileShape.VERTICAL);
+                    editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tileData.tileIndex);
+                    tileData.isMoveable = true;
                 }
             }
             else if (isHorizontal)
             {
-                int count = (int)Mathf.Abs(directionVector.x);
+                int count = (int)Mathf.Abs(directionVector.x) - 1;
+
+                curTile.SetTileSprite((int)ETileShape.HORIZONTAL);
 
                 for (int i = 0; i < count; i++)
                 {
@@ -493,6 +452,8 @@ public class MapEditorWindow : EditorWindow
 
                     EditorTileData tileData = tiles[(int)tilePos.x, (int)tilePos.y];
                     tileData.SetTileSprite((int)ETileShape.HORIZONTAL);
+                    editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tileData.tileIndex);
+                    tileData.isMoveable = true;
                 }
             }
         }
@@ -515,6 +476,8 @@ public class MapEditorWindow : EditorWindow
         Vector2 goalTilePos = new Vector2(goalTileX, goalTileY);
         Vector2 lastRouteTilePos = new Vector2(lastRouteTileX, lastRouteTileY);
 
+        EditorTileData lastRouteTile = tiles[lastRouteTileX, lastRouteTileY];
+
         Vector2 directionVector = goalTilePos - lastRouteTilePos;
 
         bool isVertical = directionVector.y != 0;
@@ -522,9 +485,11 @@ public class MapEditorWindow : EditorWindow
 
         if (isVertical)
         {
-            int count = (int)Mathf.Abs(directionVector.y);
+            int count = (int)Mathf.Abs(directionVector.y) - 1;
 
-            for (int i = 0; i < count -1; i++)
+            lastRouteTile.SetTileSprite((int)ETileShape.VERTICAL);
+
+            for (int i = 0; i < count; i++)
             {
                 int increase = directionVector.y > 0 ? i + 1 : (i + 1) * -1;
 
@@ -533,13 +498,17 @@ public class MapEditorWindow : EditorWindow
 
                 EditorTileData tileData = tiles[(int)tilePos.x, (int)tilePos.y];
                 tileData.SetTileSprite((int)ETileShape.VERTICAL);
+                editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tileData.tileIndex);
+                tileData.isMoveable = true;
             }
         }
         else if (isHorizontal)
         {
-            int count = (int)Mathf.Abs(directionVector.x);
+            int count = (int)Mathf.Abs(directionVector.x) - 1;
 
-            for (int i = 0; i < count -1; i++)
+            lastRouteTile.SetTileSprite((int)ETileShape.HORIZONTAL);
+
+            for (int i = 0; i < count; i++)
             {
                 int increase = directionVector.x > 0 ? i + 1 : (i + 1) * -1;
 
@@ -548,6 +517,8 @@ public class MapEditorWindow : EditorWindow
 
                 EditorTileData tileData = tiles[(int)tilePos.x, (int)tilePos.y];
                 tileData.SetTileSprite((int)ETileShape.HORIZONTAL);
+                editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tileData.tileIndex);
+                tileData.isMoveable = true;
             }
         }
     }
