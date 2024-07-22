@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -2179024849389687481}
   - component: {fileID: 3822338767430899140}
   m_Layer: 0
-  m_Name: TempTile
+  m_Name: EditorTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -9,6 +9,7 @@ public class EditorTileData : MonoBehaviour
     public Sprite[] tileSprites;
     private SpriteRenderer spriteRenderer;
     public int tileIndex;
+    public int tileSpriteIndex;
 
     private void Awake()
     {
@@ -20,13 +21,15 @@ public class EditorTileData : MonoBehaviour
         spriteRenderer.color = _color;
     }
 
-    public void SetTileSprite(int index)
+    public void SetTileSprite(int _index)
     {
         if(spriteRenderer == null)
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        spriteRenderer.sprite = tileSprites[index];
+        tileSpriteIndex = _index;
+
+        spriteRenderer.sprite = tileSprites[_index];
     }
 }

@@ -1,0 +1,522 @@
+{
+  "id": 0,
+  "wid": 10,
+  "goalIdx": 9,
+  "tiles": [
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 0,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 0,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 0,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 0,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 0,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 0,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 9,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 1,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 7,
+      "moveable": false,
+      "buildable": true
+    },
+    {
+      "imageIdx": 1,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 1,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 7,
+      "moveable": false,
+      "buildable": true
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 1,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 8,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 0,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 0,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 0,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 7,
+      "moveable": false,
+      "buildable": true
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 1,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 7,
+      "moveable": false,
+      "buildable": true
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 1,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 1,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 1,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 1,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 1,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 10,
+      "moveable": false,
+      "buildable": false
+    },
+    {
+      "imageIdx": 8,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 0,
+      "moveable": true,
+      "buildable": false
+    },
+    {
+      "imageIdx": 1,
+      "moveable": false,
+      "buildable": false
+    }
+  ],
+  "routes": [
+    {
+      "tileIdxs": [
+        30,
+        33,
+        3
+      ]
+    },
+    {
+      "tileIdxs": [
+        97,
+        99
+      ]
+    }
+  ]
+}

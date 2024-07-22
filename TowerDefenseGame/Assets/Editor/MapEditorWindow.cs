@@ -30,7 +30,7 @@ public class MapEditorWindow : EditorWindow
     private Vector2Int gridSize;
     private Vector2 cellSize = new Vector2(1, 1);
 
-    private EditorTileData[,] tiles;
+    private EditorTileData[] tiles;
 
     private GameObject gridParent;
 
@@ -49,6 +49,8 @@ public class MapEditorWindow : EditorWindow
     private List<SpawnTile> editorSpawnTiles = new List<SpawnTile>();
 
     private List<int> buildableTiles = new List<int>();
+
+    private int mapUid = -1;
 
     [MenuItem("Window/Map Editor")]
     public static void ShowWindow()
@@ -176,6 +178,13 @@ public class MapEditorWindow : EditorWindow
         {
             ClearGrid();
         }
+
+        mapUid = EditorGUILayout.IntField("Map ID", mapUid);
+
+        if (GUILayout.Button("Save Map"))
+        {
+            SaveMapData();
+        }
     }
 
     private void CreateGrid()
@@ -194,32 +203,45 @@ public class MapEditorWindow : EditorWindow
 
         if (tiles != null)
         {
-            foreach (var tile in tiles)
-            {
-                DestroyImmediate(tile);
-            }
-
-            DestroyImmediate(gridParent);
+            ClearGrid();
         }
 
-        tiles = new EditorTileData[gridSize.x, gridSize.y];
+        tiles = new EditorTileData[gridSize.x * gridSize.y];
         gridParent = new GameObject("Grid");
 
-        for (int x = 0; x < gridSize.x; x++)
+        int count = tiles.Length;
+
+        for(int i = 0; i <count; i ++)
         {
-            for (int y = 0; y < gridSize.y; y++)
-            {
-                EditorTileData tile = Instantiate<EditorTileData>(originTileData,gridParent.transform).GetComponent<EditorTileData>();
-                tile.transform.position = new Vector3(x * cellSize.x, y * cellSize.y, 0);
-                tiles[x, y] = tile;
+            EditorTileData tile = Instantiate<EditorTileData>(originTileData, gridParent.transform).GetComponent<EditorTileData>();
 
-                int tileIndex = x * gridSize.y + y;
+            int posX = i % gridSize.x;
+            int posY = i / gridSize.y;
 
-                tile.tileIndex = tileIndex;
+            tile.transform.position = new Vector2(posX,posY);
 
-                tile.GetComponent<EditorTileData>().SetTileSprite((int)ETileShape.EMPTY);
-            }
+            tile.tileIndex = i;
+
+            tile.GetComponent<EditorTileData>().SetTileSprite((int)ETileShape.EMPTY);
+
+            tiles[i] = tile;
         }
+
+        //for (int y = 0; y < gridSize.y; y++)
+        //{
+        //    for (int x = 0; x < gridSize.x; x++)
+        //    {
+        //        EditorTileData tile = Instantiate<EditorTileData>(originTileData, gridParent.transform).GetComponent<EditorTileData>();
+        //        tile.transform.position = new Vector3(x * cellSize.x, y * cellSize.y, 0);
+        //        tiles[x, y] = tile;
+
+        //        int tileIndex = x * gridSize.y + y;
+
+        //        tile.tileIndex = tileIndex;
+
+        //        tile.GetComponent<EditorTileData>().SetTileSprite((int)ETileShape.EMPTY);
+        //    }
+        //}
     }
     private void ClearGrid()
     {
@@ -241,6 +263,7 @@ public class MapEditorWindow : EditorWindow
 
         isSetSpawnRoute = false;
         isSetGoalTile = false;
+        isSetBuildableTile = false;
 
         editorSpawnTiles.Clear();
         buildableTiles.Clear();
@@ -261,10 +284,7 @@ public class MapEditorWindow : EditorWindow
         {
             int routeTileIndex = routeList[i];
 
-            int routeTileX = routeTileIndex / gridSize.y;
-            int routeTileY = routeTileIndex % gridSize.y;
-
-            EditorTileData routeTile = tiles[routeTileX, routeTileY];
+            EditorTileData routeTile = tiles[routeTileIndex];
 
             routeTile.SetTileSprite((int)ETileShape.EMPTY);
             routeTile.isMoveable = false;
@@ -281,10 +301,7 @@ public class MapEditorWindow : EditorWindow
         {
             int routeTileIndex = buildableTiles[i];
 
-            int routeTileX = routeTileIndex / gridSize.y;
-            int routeTileY = routeTileIndex % gridSize.y;
-
-            EditorTileData routeTile = tiles[routeTileX, routeTileY];
+            EditorTileData routeTile = tiles[routeTileIndex];
 
             routeTile.SetTileSprite((int)ETileShape.EMPTY);
             routeTile.isBuildable = false;
@@ -325,6 +342,11 @@ public class MapEditorWindow : EditorWindow
 
     private void OnMouseClick(Vector3 mousePosition)
     {
+        if(tiles == null)
+        {
+            return;
+        }
+
         mousePosition.z = 0;
 
         foreach (var tile in tiles)
@@ -349,10 +371,8 @@ public class MapEditorWindow : EditorWindow
                 {
                     if(goalTileIndex != -1)
                     {
-                        int xIndex = goalTileIndex / gridSize.y; 
-                        int yIndex = goalTileIndex % gridSize.y; 
-
-                        EditorTileData prevGoalTile = tiles[xIndex, yIndex];
+                        
+                        EditorTileData prevGoalTile = tiles[goalTileIndex];
                         prevGoalTile.SetTileSprite((int)ETileShape.EMPTY);
                     }
 
@@ -384,10 +404,7 @@ public class MapEditorWindow : EditorWindow
         {
             int spawnTileIndex = spawnTiles[curSpawnTileIndex].routeIndexList[0];
 
-            int spawnTileX = spawnTileIndex / gridSize.y;
-            int spawnTileY = spawnTileIndex % gridSize.y;
-
-            EditorTileData spawnTile = tiles[spawnTileX, spawnTileY];
+            EditorTileData spawnTile = tiles[spawnTileIndex];
 
             spawnTile.SetTileSprite((int)ETileShape.SPAWN);
 
@@ -400,18 +417,18 @@ public class MapEditorWindow : EditorWindow
 
             int prevTileIndex = routeArr[routeArr.Count - 2];
 
-            int prevTileX = prevTileIndex / gridSize.y;
-            int prevTileY = prevTileIndex % gridSize.y;
+            int prevTileX = prevTileIndex % gridSize.x;
+            int prevTileY = prevTileIndex / gridSize.x;
 
             int curTileIndex = routeArr[routeArr.Count -1];
 
-            int curTileX = curTileIndex / gridSize.y;
-            int curTileY = curTileIndex % gridSize.y;
+            int curTileX = curTileIndex % gridSize.x;
+            int curTileY = curTileIndex / gridSize.x;
 
             Vector2 prevTilePos = new Vector2(prevTileX, prevTileY);
             Vector2 curTilePos = new Vector2(curTileX, curTileY);
 
-            EditorTileData curTile = tiles[curTileX, curTileY];
+            EditorTileData curTile = tiles[curTileIndex];
 
             Vector2 directionVector = curTilePos - prevTilePos;
 
@@ -431,7 +448,9 @@ public class MapEditorWindow : EditorWindow
                     Vector2 tilePos = prevTilePos;
                     tilePos.y += increase;
 
-                    EditorTileData tileData = tiles[(int)tilePos.x, (int)tilePos.y];
+                    int tileIndex = (int)tilePos.y * gridSize.x + (int)tilePos.x;
+
+                    EditorTileData tileData = tiles[tileIndex];
                     tileData.SetTileSprite((int)ETileShape.VERTICAL);
                     editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tileData.tileIndex);
                     tileData.isMoveable = true;
@@ -450,7 +469,9 @@ public class MapEditorWindow : EditorWindow
                     Vector2 tilePos = prevTilePos;
                     tilePos.x += increase;
 
-                    EditorTileData tileData = tiles[(int)tilePos.x, (int)tilePos.y];
+                    int tileIndex = (int)tilePos.y * gridSize.x + (int)tilePos.x;
+
+                    EditorTileData tileData = tiles[tileIndex];
                     tileData.SetTileSprite((int)ETileShape.HORIZONTAL);
                     editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tileData.tileIndex);
                     tileData.isMoveable = true;
@@ -465,18 +486,18 @@ public class MapEditorWindow : EditorWindow
 
         int goalTileIndex = this.goalTileIndex;
 
-        int goalTileX = goalTileIndex / gridSize.y;
-        int goalTileY = goalTileIndex % gridSize.y;
+        int goalTileX = goalTileIndex % gridSize.x;
+        int goalTileY = goalTileIndex / gridSize.x;
 
         int lastRouteTileIndex = routeArr[routeArr.Count - 1];
 
-        int lastRouteTileX = lastRouteTileIndex / gridSize.y;
-        int lastRouteTileY = lastRouteTileIndex % gridSize.y;
+        int lastRouteTileX = lastRouteTileIndex % gridSize.x;
+        int lastRouteTileY = lastRouteTileIndex / gridSize.x;
 
         Vector2 goalTilePos = new Vector2(goalTileX, goalTileY);
         Vector2 lastRouteTilePos = new Vector2(lastRouteTileX, lastRouteTileY);
 
-        EditorTileData lastRouteTile = tiles[lastRouteTileX, lastRouteTileY];
+        EditorTileData lastRouteTile = tiles[lastRouteTileIndex];
 
         Vector2 directionVector = goalTilePos - lastRouteTilePos;
 
@@ -496,7 +517,9 @@ public class MapEditorWindow : EditorWindow
                 Vector2 tilePos = lastRouteTilePos;
                 tilePos.y += increase;
 
-                EditorTileData tileData = tiles[(int)tilePos.x, (int)tilePos.y];
+                int tileIndex = (int)tilePos.y * gridSize.x + (int)tilePos.x;
+
+                EditorTileData tileData = tiles[tileIndex];
                 tileData.SetTileSprite((int)ETileShape.VERTICAL);
                 editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tileData.tileIndex);
                 tileData.isMoveable = true;
@@ -515,11 +538,69 @@ public class MapEditorWindow : EditorWindow
                 Vector2 tilePos = lastRouteTilePos;
                 tilePos.x += increase;
 
-                EditorTileData tileData = tiles[(int)tilePos.x, (int)tilePos.y];
+                int tileIndex = (int)tilePos.y * gridSize.x + (int)tilePos.x;
+
+                EditorTileData tileData = tiles[tileIndex];
                 tileData.SetTileSprite((int)ETileShape.HORIZONTAL);
                 editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tileData.tileIndex);
                 tileData.isMoveable = true;
             }
         }
+    }
+
+    private void SaveMapData()
+    {
+        if(mapUid == -1)
+        {
+            Debug.Log("Input MapUID");
+            return;
+        }
+        else if(tiles == null)
+        {
+            Debug.Log("Map Data Null");
+        }
+
+
+        TileData[] tileDatas = new TileData[tiles.Length];
+
+        int count = tiles.Length;
+
+        foreach(EditorTileData editorTileData in tiles)
+        {
+            TileData tileData = new TileData()
+            {
+                imageIdx = editorTileData.tileSpriteIndex,
+                moveable = editorTileData.isMoveable,
+                buildable = editorTileData.isBuildable
+            };
+
+            tileDatas[editorTileData.tileIndex] = tileData;
+        }
+
+        count = spawnTiles.Count;
+
+        RouteData[] routeDatas = new RouteData[count];
+
+        for(int i = 0; i < count; i++)
+        {
+            RouteData routeData = new RouteData
+            {
+                tileIdxs = spawnTiles[i].routeIndexList.ToArray()
+            };
+
+            routeDatas[i] = routeData;
+        }
+
+        MapData mapData = new MapData()
+        {
+            id = mapUid,
+            wid = gridSize.x,
+            goalIdx = goalTileIndex,
+            tiles = tileDatas,
+            routes = routeDatas
+        };
+
+        TableLoader.SaveToJson("Map", mapData, "MapData" + mapUid);
+
     }
 }
