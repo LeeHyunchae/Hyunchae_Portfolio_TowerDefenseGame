@@ -11,37 +11,21 @@ public class MapCreator : MonoBehaviour
 
     private GameObject gridParent;
 
-    private void Awake()
+    public void SetMapData(MapData _mapData)
     {
-        mapData = TableLoader.LoadFromFile<MapData>("Map/MapData0");
+        mapData = _mapData;
     }
 
-    private void Update()
+    public MapData GetMapData => mapData;
+
+    public void CreateMap()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(gridParent != null)
         {
-            CreateMap();
+            Destroy(gridParent);
         }
-    }
 
-    private void CreateMap()
-    {
-        //int width = mapData.wid;
-        //int height = mapData.tiles.Length / mapData.wid;
-
-
-        //for (int y = 0; y < height; y++)
-        //{
-        //    for(int x = 0; x < width; x++)
-        //    {
-        //        SpriteRenderer tileSprite = Instantiate<GameObject>(originTilePrefab, gridParent.transform).GetComponent<SpriteRenderer>();
-        //        tileSprite.transform.position = new Vector2(x, y);
-
-        //        //tileSprite.sprite = mapData.tiles[]
-        //    }
-        //}
-        
-        gridParent = new GameObject("Grid");
+        gridParent = new GameObject("Map");
 
         int count = mapData.tiles.Length;
         int height = 0;
