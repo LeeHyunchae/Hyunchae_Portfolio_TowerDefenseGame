@@ -5,13 +5,19 @@ using UnityEngine;
 public class IngameSceneController : MonoBehaviour
 {
     [SerializeField] private MapCreator mapCreator;
-    [SerializeField] private MonsterController originMonster;
 
+    private MonsterManager monsterManager;
     private Camera mainCam;
 
     private void Awake()
     {
+        Init();
+    }
+
+    private void Init()
+    {
         InitMapCreator();
+        monsterManager = MonsterManager.getInstance;
     }
 
     private void InitMapCreator()
@@ -35,10 +41,10 @@ public class IngameSceneController : MonoBehaviour
 
     private void Update()
     {
-        
         if(Input.GetKeyDown(KeyCode.R))
         {
-            MonsterController monster = Instantiate<MonsterController>(originMonster);
+            Debug.Log("몬스터 스폰");
+            MonsterController monster = monsterManager.GetMonster();
 
             int ran = Random.Range(0, 2);
 
