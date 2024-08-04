@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class IngameSceneController : MonoBehaviour
 {
-    [SerializeField] private MapCreator mapCreator;
 
     private MonsterManager monsterManager;
     private Camera mainCam;
+    private InputController inputController;
+    private MapData mapData;
+    private MapCreator mapCreator;
 
     private void Awake()
     {
@@ -18,15 +20,25 @@ public class IngameSceneController : MonoBehaviour
     {
         InitMapCreator();
         monsterManager = MonsterManager.getInstance;
+        InitInputController();
     }
 
     private void InitMapCreator()
     {
-        MapData mapData = TableLoader.LoadFromFile<MapData>("Map/MapData0");
+        mapData = TableLoader.LoadFromFile<MapData>("Map/MapData0");
 
+        mapCreator = new MapCreator();
+        mapCreator.Init();
         mapCreator.SetMapData(mapData);
 
         CreateMap();
+    }
+
+    private void InitInputController()
+    {
+        inputController = new InputController();
+        inputController.SetMapData(mapData);
+        inputController.SetIsPlayGame(true);
     }
 
     private void CreateMap()
@@ -43,7 +55,6 @@ public class IngameSceneController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("몬스터 스폰");
             MonsterController monster = monsterManager.GetMonster();
 
             int ran = Random.Range(0, 2);
@@ -51,5 +62,7 @@ public class IngameSceneController : MonoBehaviour
             monster.SetRoute(mapCreator.GetMapData.routes[ran],mapCreator.GetMapData.goalIdx);
             monster.Spawn();
         }
+
+        inputController.Update();
     }
 }

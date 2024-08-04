@@ -2,14 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapCreator : MonoBehaviour
+public class MapCreator
 {
     [SerializeField] private GameObject originTilePrefab;
-    [SerializeField] private Sprite[] sprites;
 
+    private SpriteRenderer originTile;
+    private MapManager mapManager;
     private MapData mapData;
 
-    private GameObject gridParent;
+    private Transform gridParent;
+
+    public void Init()
+    {
+        originTile = Resources.Load<SpriteRenderer>("Prefabs/BaseTile");
+        mapManager = MapManager.getInstance;
+    }
 
     public void SetMapData(MapData _mapData)
     {
@@ -22,17 +29,17 @@ public class MapCreator : MonoBehaviour
     {
         if(gridParent != null)
         {
-            Destroy(gridParent);
+            GameObject.Destroy(gridParent);
         }
 
-        gridParent = new GameObject("Map");
+        gridParent = new GameObject("Map").transform;
 
         int count = mapData.tiles.Length;
         int height = 0;
 
         for(int i = 0; i < count; i ++)
         {
-            SpriteRenderer tileSprite = Instantiate<GameObject>(originTilePrefab, gridParent.transform).GetComponent<SpriteRenderer>();
+            SpriteRenderer tileSprite = GameObject.Instantiate(originTile,gridParent);
 
             int posX = i % 10;
 
@@ -43,9 +50,9 @@ public class MapCreator : MonoBehaviour
 
             tileSprite.transform.position = new Vector2(posX, height);
 
-            int spriteIndex = mapData.tiles[i].imageIdx;
+            ETileType tileType = (ETileType)mapData.tiles[i].imageIdx;
 
-            tileSprite.sprite = sprites[spriteIndex];
+            tileSprite.sprite = mapManager.GetTileSprite(tileType);
 
         }
     }

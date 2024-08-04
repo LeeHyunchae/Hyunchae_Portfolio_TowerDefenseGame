@@ -153,7 +153,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapCreator: {fileID: 2180378050132214912, guid: 5519bdbd14b7db04889d91e75f2e9d1b, type: 3}
-  originMonster: {fileID: 545574030498251903, guid: 7ed8ba6dcb7cfe2469dbb47e1f7f655c, type: 3}
 --- !u!4 &1473753174
 Transform:
   m_ObjectHideFlags: 0

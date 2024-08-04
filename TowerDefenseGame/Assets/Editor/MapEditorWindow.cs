@@ -8,21 +8,6 @@ public class SpawnTile
     public List<int> routeIndexList = new List<int>();
 }
 
-public enum ETileShape
-{
-    HORIZONTAL = 0,
-    VERTICAL = 1,
-    UP_RIGHT = 2,
-    UP_LEFT = 3,
-    DOWN_LEFT = 4,
-    DOWN_RIGHT = 5,
-    DIAGONAL = 6,
-    BUILDABLE = 7,
-    SPAWN = 8,
-    GOAL = 9,
-    EMPTY = 10
-}
-
 public class MapEditorWindow : EditorWindow
 {
     private GameObject originTilePrefabObject;
@@ -222,7 +207,7 @@ public class MapEditorWindow : EditorWindow
 
             tile.tileIndex = i;
 
-            tile.GetComponent<EditorTileData>().SetTileSprite((int)ETileShape.EMPTY);
+            tile.GetComponent<EditorTileData>().SetTileSprite((int)ETileType.EMPTY);
 
             tiles[i] = tile;
         }
@@ -286,7 +271,7 @@ public class MapEditorWindow : EditorWindow
 
             EditorTileData routeTile = tiles[routeTileIndex];
 
-            routeTile.SetTileSprite((int)ETileShape.EMPTY);
+            routeTile.SetTileSprite((int)ETileType.EMPTY);
             routeTile.isMoveable = false;
         }
 
@@ -303,7 +288,7 @@ public class MapEditorWindow : EditorWindow
 
             EditorTileData routeTile = tiles[routeTileIndex];
 
-            routeTile.SetTileSprite((int)ETileShape.EMPTY);
+            routeTile.SetTileSprite((int)ETileType.EMPTY);
             routeTile.isBuildable = false;
         }
 
@@ -373,11 +358,11 @@ public class MapEditorWindow : EditorWindow
                     {
                         
                         EditorTileData prevGoalTile = tiles[goalTileIndex];
-                        prevGoalTile.SetTileSprite((int)ETileShape.EMPTY);
+                        prevGoalTile.SetTileSprite((int)ETileType.EMPTY);
                     }
 
                     goalTileIndex = tile.tileIndex;
-                    tile.SetTileSprite((int)ETileShape.GOAL);
+                    tile.SetTileSprite((int)ETileType.GOAL);
                 }
 
                 if(isSetBuildableTile)
@@ -390,7 +375,7 @@ public class MapEditorWindow : EditorWindow
 
                     buildableTiles.Add(tile.tileIndex);
                     tile.isBuildable = true;
-                    tile.SetTileSprite((int)ETileShape.BUILDABLE);
+                    tile.SetTileSprite((int)ETileType.BUILDABLE);
                 }
 
                 break;
@@ -406,7 +391,7 @@ public class MapEditorWindow : EditorWindow
 
             EditorTileData spawnTile = tiles[spawnTileIndex];
 
-            spawnTile.SetTileSprite((int)ETileShape.SPAWN);
+            spawnTile.SetTileSprite((int)ETileType.SPAWN);
 
             spawnTile.isMoveable = true;
 
@@ -439,7 +424,7 @@ public class MapEditorWindow : EditorWindow
             {
                 int count = (int)Mathf.Abs(directionVector.y) - 1;
 
-                curTile.SetTileSprite((int)ETileShape.VERTICAL);
+                curTile.SetTileSprite((int)ETileType.VERTICAL);
 
                 for (int i = 0; i < count; i++)
                 {
@@ -451,7 +436,7 @@ public class MapEditorWindow : EditorWindow
                     int tileIndex = (int)tilePos.y * gridSize.x + (int)tilePos.x;
 
                     EditorTileData tileData = tiles[tileIndex];
-                    tileData.SetTileSprite((int)ETileShape.VERTICAL);
+                    tileData.SetTileSprite((int)ETileType.VERTICAL);
                     editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tileData.tileIndex);
                     tileData.isMoveable = true;
                 }
@@ -460,7 +445,7 @@ public class MapEditorWindow : EditorWindow
             {
                 int count = (int)Mathf.Abs(directionVector.x) - 1;
 
-                curTile.SetTileSprite((int)ETileShape.HORIZONTAL);
+                curTile.SetTileSprite((int)ETileType.HORIZONTAL);
 
                 for (int i = 0; i < count; i++)
                 {
@@ -472,7 +457,7 @@ public class MapEditorWindow : EditorWindow
                     int tileIndex = (int)tilePos.y * gridSize.x + (int)tilePos.x;
 
                     EditorTileData tileData = tiles[tileIndex];
-                    tileData.SetTileSprite((int)ETileShape.HORIZONTAL);
+                    tileData.SetTileSprite((int)ETileType.HORIZONTAL);
                     editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tileData.tileIndex);
                     tileData.isMoveable = true;
                 }
@@ -508,7 +493,7 @@ public class MapEditorWindow : EditorWindow
         {
             int count = (int)Mathf.Abs(directionVector.y) - 1;
 
-            lastRouteTile.SetTileSprite((int)ETileShape.VERTICAL);
+            lastRouteTile.SetTileSprite((int)ETileType.VERTICAL);
 
             for (int i = 0; i < count; i++)
             {
@@ -520,7 +505,7 @@ public class MapEditorWindow : EditorWindow
                 int tileIndex = (int)tilePos.y * gridSize.x + (int)tilePos.x;
 
                 EditorTileData tileData = tiles[tileIndex];
-                tileData.SetTileSprite((int)ETileShape.VERTICAL);
+                tileData.SetTileSprite((int)ETileType.VERTICAL);
                 editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tileData.tileIndex);
                 tileData.isMoveable = true;
             }
@@ -529,7 +514,7 @@ public class MapEditorWindow : EditorWindow
         {
             int count = (int)Mathf.Abs(directionVector.x) - 1;
 
-            lastRouteTile.SetTileSprite((int)ETileShape.HORIZONTAL);
+            lastRouteTile.SetTileSprite((int)ETileType.HORIZONTAL);
 
             for (int i = 0; i < count; i++)
             {
@@ -541,7 +526,7 @@ public class MapEditorWindow : EditorWindow
                 int tileIndex = (int)tilePos.y * gridSize.x + (int)tilePos.x;
 
                 EditorTileData tileData = tiles[tileIndex];
-                tileData.SetTileSprite((int)ETileShape.HORIZONTAL);
+                tileData.SetTileSprite((int)ETileType.HORIZONTAL);
                 editorSpawnTiles[curSpawnTileIndex].routeIndexList.Add(tileData.tileIndex);
                 tileData.isMoveable = true;
             }
