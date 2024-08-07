@@ -4,12 +4,12 @@ using UnityEngine;
 
 public enum ETowerType
 {
-    ONESHOOT,
+    SINGLEFIRE,
     BOOM,
     DEBUFF,
     PIERCE,
     LAUNCHER,
-    CONTINUOUS,
+    AUTOFIRE,
     MULTI
 }
 

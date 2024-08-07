@@ -8,8 +8,9 @@ public class IngameSceneController : MonoBehaviour
     private MonsterManager monsterManager;
     private Camera mainCam;
     private InputController inputController;
-    private MapData mapData;
     private MapCreator mapCreator;
+    private MapManager mapManager;
+    private TowerBuildController towerBuildController;
 
     private void Awake()
     {
@@ -18,18 +19,19 @@ public class IngameSceneController : MonoBehaviour
 
     private void Init()
     {
-        InitMapCreator();
+        mapManager = MapManager.getInstance;
         monsterManager = MonsterManager.getInstance;
+        InitMap();
         InitInputController();
     }
 
-    private void InitMapCreator()
+    private void InitMap()
     {
-        mapData = TableLoader.LoadFromFile<MapData>("Map/MapData0");
-
         mapCreator = new MapCreator();
         mapCreator.Init();
-        mapCreator.SetMapData(mapData);
+
+        towerBuildController = new TowerBuildController();
+        towerBuildController.Init();
 
         CreateMap();
     }
@@ -37,15 +39,18 @@ public class IngameSceneController : MonoBehaviour
     private void InitInputController()
     {
         inputController = new InputController();
-        inputController.SetMapData(mapData);
+        inputController.SetMapData(mapManager.GetMapData);
         inputController.SetIsPlayGame(true);
+
+        inputController.OnClickBuildableTileAction = towerBuildController.OnClickBuildableTile;
     }
 
     private void CreateMap()
     {
-        mapCreator.CreateMap();
+        List<int> builableTileList = mapCreator.CreateMap();
+        towerBuildController.CreateTower(builableTileList);
 
-        float mapWidth = mapCreator.GetMapData.wid * 0.5f;
+        float mapWidth = mapManager.GetMapData.wid * 0.5f;
 
         mainCam = Camera.main;
         mainCam.transform.position = new Vector3(mapWidth, mapWidth - 0.5f,mainCam.transform.position.z);
@@ -59,7 +64,7 @@ public class IngameSceneController : MonoBehaviour
 
             int ran = Random.Range(0, 2);
 
-            monster.SetRoute(mapCreator.GetMapData.routes[ran],mapCreator.GetMapData.goalIdx);
+            monster.SetRoute(mapManager.GetMapData.routes[ran],mapManager.GetMapData.goalIdx);
             monster.Spawn();
         }
 

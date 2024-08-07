@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class MapCreator
 {
-    [SerializeField] private GameObject originTilePrefab;
-
     private SpriteRenderer originTile;
     private MapManager mapManager;
-    private MapData mapData;
 
     private Transform gridParent;
 
@@ -18,15 +15,12 @@ public class MapCreator
         mapManager = MapManager.getInstance;
     }
 
-    public void SetMapData(MapData _mapData)
+    public List<int> CreateMap()
     {
-        mapData = _mapData;
-    }
+        MapData mapData = mapManager.GetMapData;
 
-    public MapData GetMapData => mapData;
+        List<int> buildableTileIndexList = new List<int>();
 
-    public void CreateMap()
-    {
         if(gridParent != null)
         {
             GameObject.Destroy(gridParent);
@@ -54,6 +48,13 @@ public class MapCreator
 
             tileSprite.sprite = mapManager.GetTileSprite(tileType);
 
+            if(mapData.tiles[i].buildable)
+            {
+                buildableTileIndexList.Add(i);
+            }
+
         }
+
+        return buildableTileIndexList;
     }
 }

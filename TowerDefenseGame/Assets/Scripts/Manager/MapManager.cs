@@ -23,11 +23,20 @@ public class MapManager : Singleton<MapManager>
 {
     private const string TILESPRITEPATH = "Sprites/TempImage/Tile_";
     private Dictionary<ETileType, Sprite> tileSpriteDict = new Dictionary<ETileType, Sprite>();
+    private MapData mapData;
 
     public override void Init()
     {
+        LoadMapData();
         LoadTileSprite();
         base.Init();
+    }
+
+    public MapData GetMapData => mapData;
+
+    private void LoadMapData()
+    {
+        mapData = TableLoader.LoadFromFile<MapData>("Map/MapData0");
     }
 
     private void LoadTileSprite()
